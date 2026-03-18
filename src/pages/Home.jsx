@@ -1,93 +1,167 @@
+import heroImg from "./../../assets/hero.png";
+import {
+  FaGooglePlay,
+  FaApple,
+  FaDownload,
+  FaStar,
+} from "react-icons/fa";
 import { useEffect, useState } from "react";
-import AppCard from "../components/AppCard";
+import { Link } from "react-router";
+
+
 
 const Home = () => {
+
+
   const [apps, setApps] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("/apps.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setApps(data);
-        setLoading(false);
+      .then(res => res.json())
+      .then(data => {
+        const trendingApps = data.filter(app => app.type === "trending");
+        setApps(trendingApps.slice(0,8)); // first 8
       });
   }, []);
 
-  // Top 8 apps
-  const topApps = apps.slice(0, 8);
-
-  if (loading) {
-    return <div className="text-center py-20">Loading...</div>;
-  }
 
   return (
-    <div className="space-y-16">
-      
-      {/* 🔥 Banner Section */}
-      <section className="text-center py-20 bg-gradient-to-r from-indigo-500 to-purple-600 text-white">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          Discover Amazing Apps
+    <div>
+      {/* ================= HERO SECTION ================= */}
+      <section className="text-center px-4 bg-gray-50">
+        <h1 className="text-4xl md:text-6xl font-bold text-gray-800">
+          We Build <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-500">
+            Productive
+          </span>{" "}
+          Apps
         </h1>
-        <p className="mb-6 text-lg">
-          Find, install and manage your favorite apps easily 🚀
+
+        <p className="mt-4 text-gray-500 max-w-xl mx-auto">
+          At HERO.STORE, we craft innovative apps designed to make everyday life
+          simpler. Our apps focus on usability and performance to save you time.
+          Discover tools that help you stay productive every day.
         </p>
 
-        <div className="space-x-4">
-          <a
-            href="https://www.apple.com/app-store/"
-            target="_blank"
-            className="btn bg-white text-black"
-          >
-            App Store
-          </a>
+        {/* Buttons */}
+        <div className="flex justify-center gap-4 mt-6">
+          <button className="flex items-center gap-2 px-5 py-2 border rounded-lg shadow-sm hover:bg-gray-100">
+            <FaGooglePlay /> Google Play
+          </button>
+          <button className="flex items-center gap-2 px-5 py-2 border rounded-lg shadow-sm hover:bg-gray-100">
+            <FaApple /> App Store
+          </button>
+        </div>
 
-          <a
-            href="https://play.google.com/"
-            target="_blank"
-            className="btn bg-black text-white"
-          >
-            Play Store
-          </a>
+        {/* Image */}
+        <div className="flex justify-center mt-10 relative">
+          <img src={heroImg} alt="hero" className="w-[300px] md:w-[600px]" />
+        </div>
+
+      </section>
+
+
+
+
+
+      {/* ================= STATS ================= */}
+      <section className="bg-gradient-to-r from-purple-600 to-indigo-500 text-white py-12">
+        <h2 className="text-3xl md:text-5xl font-bold text-center mb-10">
+          Trusted By Millions, Built For You
+        </h2>
+
+        <div className="grid md:grid-cols-3 text-center gap-6 max-w-5xl mx-auto">
+          <div>
+            <p className="text-sm mb-4 flex justify-center items-center gap-1">Total Downloads</p>
+            <h3 className="text-5xl font-bold">29.6M</h3>
+            <p className="text-sm mt-5 flex justify-center items-center gap-1">
+               21% more than last month
+            </p>
+          </div>
+
+          <div>
+            <p className="text-sm mb-4 flex justify-center items-center gap-1">Total Reviews</p>
+            <h3 className="text-5xl font-bold">906K</h3>
+            <p className="text-sm mt-5 flex justify-center items-center gap-1">
+               46% more than last month
+            </p>
+          </div>
+
+          <div>
+            <p className="text-sm mb-4 flex justify-center items-center gap-1">Active Apps</p>
+            <h3 className="text-5xl font-bold">132+</h3>
+            <p className="text-sm mt-5 flex justify-center items-center gap-1">
+              31 more will Launch
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* 📊 Stats Section */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6 px-6">
-        <div className="p-6 shadow rounded-xl text-center">
-          <h2 className="text-3xl font-bold">{apps.length}+</h2>
-          <p>Total Apps</p>
-        </div>
 
-        <div className="p-6 shadow rounded-xl text-center">
-          <h2 className="text-3xl font-bold">
-            {apps.reduce((acc, app) => acc + app.downloads, 0)}
-          </h2>
-          <p>Total Downloads</p>
-        </div>
 
-        <div className="p-6 shadow rounded-xl text-center">
-          <h2 className="text-3xl font-bold">4.5⭐</h2>
-          <p>Average Rating</p>
-        </div>
-      </section>
 
-      {/* 📱 Top Apps Section */}
-      <section className="px-6">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">Top Apps</h2>
+      {/* ================= TRENDING ================= */}
+       <section className="py-14 px-4 bg-gray-50">
 
-          <a href="/apps" className="btn btn-outline">
-            Show All
-          </a>
-        </div>
+        <h2 className="text-3xl font-bold text-center text-gray-800">
+          Trending Apps
+        </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {topApps.map((app) => (
-            <AppCard key={app.id} app={app} />
+        <p className="text-center text-gray-500 mt-2">
+          Explore All Trending Apps on the Market developed by us
+        </p>
+
+
+        <div className="grid md:grid-cols-4 gap-6 mt-10 max-w-6xl mx-auto">
+
+          {apps.map(app => (
+
+            <div
+              key={app.id}
+              className="bg-white p-4 rounded-xl shadow hover:shadow-lg transition"
+            >
+
+              <img
+                src={app.image}
+                alt={app.title}
+                className="h-32 w-full object-cover rounded-md mb-3"
+              />
+
+              <h3 className="font-semibold text-sm">{app.title}</h3>
+
+              <p className="text-xs text-gray-500">{app.companyName}</p>
+
+
+              <div className="flex justify-between mt-2 text-xs">
+
+                <span className="flex items-center gap-1 text-green-500">
+                  <FaDownload /> {Math.floor(app.downloads / 100000)}M
+                </span>
+
+                <span className="flex items-center gap-1 text-orange-500">
+                  <FaStar /> {app.ratingAvg}
+                </span>
+
+              </div>
+
+            </div>
+
           ))}
+
         </div>
-      </section>
+
+
+        <div className="text-center mt-10">
+          <Link to="/apps">
+            <button className="px-6 py-2 bg-gradient-to-r from-purple-600 to-indigo-500 text-white rounded-lg">
+              Show All
+            </button>
+          </Link>
+        </div>
+
+       </section>
+
+
     </div>
   );
 };

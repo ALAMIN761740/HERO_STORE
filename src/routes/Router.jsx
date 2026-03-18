@@ -10,7 +10,6 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
-    errorElement: <ErrorPage />,
     children: [
       { path: "/", 
         element: <Home />
@@ -24,6 +23,12 @@ const router = createBrowserRouter([
       { path: "/installation", 
         element: <MyInstallation /> 
       },
+
+      // Catch-all route for 404 errors
+      {
+        path: "*",
+        element: <ErrorPage />
+      }
     ],
   },
 ]);
