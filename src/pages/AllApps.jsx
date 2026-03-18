@@ -7,21 +7,15 @@ const AllApps = () => {
   const [filteredApps, setFilteredApps] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 📦 Load Data (FIXED)
+  // 📦 Load Data
   useEffect(() => {
     fetch("/apps.json")
       .then((res) => {
-        // 🔥 DEBUG
         console.log("Status:", res.status);
-
-        if (!res.ok) {
-          throw new Error("JSON load failed");
-        }
-
+        if (!res.ok) throw new Error("JSON load failed");
         return res.json();
       })
       .then((data) => {
-        console.log("DATA:", data); // 🔥 check console
         setApps(data);
         setFilteredApps(data);
         setLoading(false);
@@ -32,7 +26,7 @@ const AllApps = () => {
       });
   }, []);
 
-  // 🔍 Live Search
+  // 🔍 Live Search Filter
   useEffect(() => {
     const result = apps.filter((app) =>
       app.title.toLowerCase().includes(search.toLowerCase())
@@ -55,11 +49,10 @@ const AllApps = () => {
       </div>
 
       {/* 🔍 Search + Count */}
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+      <div className="max-w-7xl mx-auto px-10  flex flex-col md:flex-row justify-between items-center gap-4">
         <h2 className="text-lg font-semibold">
           Total Apps: {filteredApps.length}
         </h2>
-
         <input
           type="text"
           placeholder="Search apps..."
@@ -75,7 +68,7 @@ const AllApps = () => {
           No App Found 😢
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="px-10  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredApps.map((app) => (
             <AppCard key={app.id} app={app} />
           ))}

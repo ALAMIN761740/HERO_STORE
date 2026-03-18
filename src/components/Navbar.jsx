@@ -17,7 +17,7 @@ const Navbar = () => {
 
 
   return (
-    <nav className="flex justify-between p-4  shadow">
+    <nav className="px-10 flex justify-between p-4  shadow">
       <NavLink to="/" className="inline-flex items-center space-x-2">
         <img className="w-8 h-8" src="./../../assets/logo.png" alt="Hero Store logo" />
         <span className="text-lg font-semibold bg-gradient-to-br from-[#632EE3] to-[#9F62F2] bg-clip-text text-transparent">Hero Store</span>

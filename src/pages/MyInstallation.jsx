@@ -1,38 +1,44 @@
-
-
+import { useApp } from "../context/AppContext";
+import { FaMobileAlt } from "react-icons/fa";
 
 const MyInstallation = () => {
+  const { installedApps, uninstallApp } = useApp();
+
   return (
     <div className="min-h-screen bg-gray-50 px-6 py-10">
       <h1 className="text-4xl font-bold text-center mb-8">
-        My Installations
+        Your Installed Apps
       </h1>
 
-      <div className="grid md:grid-cols-3 gap-6">
-        {/* Card 1 */}
-        <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-          <h2 className="text-xl font-semibold mb-2">Project One</h2>
-          <p className="text-gray-500">
-            This is a demo installation project.
-          </p>
-        </div>
+      {installedApps.length === 0 ? (
+        <p className="text-center text-gray-500">No apps installed</p>
+      ) : (
+        <div className="space-y-4 max-w-3xl mx-auto">
+          {installedApps.map((app) => (
+            <div
+              key={app.id}
+              className="flex justify-between items-center bg-white p-4 rounded shadow"
+            >
+              <div className="flex items-center gap-4">
+                <FaMobileAlt className="text-2xl text-blue-500" />
+                <div>
+                  <h2 className="font-semibold">{app.title}</h2>
+                  <p className="text-sm text-gray-500">
+                    {app.size} MB
+                  </p>
+                </div>
+              </div>
 
-        {/* Card 2 */}
-        <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-          <h2 className="text-xl font-semibold mb-2">Project Two</h2>
-          <p className="text-gray-500">
-            Another installation example.
-          </p>
+              <button
+                onClick={() => uninstallApp(app.id)}
+                className="bg-red-500 text-white px-4 py-1 rounded"
+              >
+                Uninstall
+              </button>
+            </div>
+          ))}
         </div>
-
-        {/* Card 3 */}
-        <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-          <h2 className="text-xl font-semibold mb-2">Project Three</h2>
-          <p className="text-gray-500">
-            More installations listed here.
-          </p>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

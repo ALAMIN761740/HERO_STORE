@@ -7,6 +7,7 @@ import {
 } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
+import AppCard from "../components/AppCard";
 
 
 
@@ -113,41 +114,9 @@ const Home = () => {
 
 
         <div className="grid md:grid-cols-4 gap-6 mt-10 max-w-6xl mx-auto">
-
-          {apps.map(app => (
-
-            <div
-              key={app.id}
-              className="bg-white p-4 rounded-xl shadow hover:shadow-lg transition"
-            >
-
-              <img
-                src={app.image}
-                alt={app.title}
-                className="h-32 w-full object-cover rounded-md mb-3"
-              />
-
-              <h3 className="font-semibold text-sm">{app.title}</h3>
-
-              <p className="text-xs text-gray-500">{app.companyName}</p>
-
-
-              <div className="flex justify-between mt-2 text-xs">
-
-                <span className="flex items-center gap-1 text-green-500">
-                  <FaDownload /> {Math.floor(app.downloads / 100000)}M
-                </span>
-
-                <span className="flex items-center gap-1 text-orange-500">
-                  <FaStar /> {app.ratingAvg}
-                </span>
-
-              </div>
-
-            </div>
-
+          {apps.map((app) => (
+            <AppCard key={app.id} app={app} />
           ))}
-
         </div>
 
 
