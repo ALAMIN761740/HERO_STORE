@@ -1,5 +1,5 @@
 import { FaGlobe, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
-import { NavLink } from "react-router";
+import { Link } from "react-router";
 
 const Footer = () => {
   return (
@@ -8,10 +8,10 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 py-12 flex  justify-between gap-8 items-start  text-center md:text-left">
         
         
-        <NavLink to="/" className="inline-flex items-center space-x-2">
+        <Link to="/" className="inline-flex items-center space-x-2">
             <img className="w-8 h-8" src="./../../assets/logo.png" alt="Hero Store logo" />
             <span className="text-lg font-semibold  ">Hero Store</span>
-        </NavLink>
+        </Link>
 
      
         <div>
