@@ -5,13 +5,33 @@ const Footer = () => {
   return (
     <footer className="bg-black text-white mt-20">
       
-      <div className="max-w-7xl mx-auto px-10 py-12 flex  justify-between gap-8 items-start  text-center md:text-left">
+      <div className="max-w-7xl mx-auto px-10 py-12 grid md:grid-cols-3   justify-between gap-8 items-start  text-center md:text-left">
         
-        
-        <Link to="/" className="inline-flex items-center space-x-2">
+        <div>
+          <Link to="/" className="inline-flex items-center space-x-2">
             <img className="w-8 h-8" src="./../../assets/logo.png" alt="Hero Store logo" />
             <span className="text-lg font-semibold  ">Hero Store</span>
         </Link>
+          <p className="mt-4 text-gray-400">
+            Your one-stop app store for all your software needs. Discover, download, and manage your favorite applications with ease.
+          </p>
+        </div>
+
+        <div>
+        
+          <Link to="/" className="text-gray-400 hover:text-white transition">
+            Home
+          </Link>
+
+          <Link to="/apps" className="text-gray-400 hover:text-white transition block mt-2">
+            Apps
+          </Link>
+          <Link to="/installation" className="text-gray-400 hover:text-white transition block mt-2">
+            Installation
+          </Link>
+        </div>
+      
+
 
      
         <div>

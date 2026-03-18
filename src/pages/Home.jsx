@@ -46,12 +46,16 @@ const Home = () => {
 
         {/* Buttons */}
         <div className="flex justify-center gap-4 mt-6">
-          <button className="flex items-center gap-2 px-5 py-2 border rounded-lg shadow-sm hover:bg-gray-100">
-            <FaGooglePlay /> Google Play
-          </button>
-          <button className="flex items-center gap-2 px-5 py-2 border rounded-lg shadow-sm hover:bg-gray-100">
-            <FaApple /> App Store
-          </button>
+          <Link to="https://play.google.com/store/games?hl=en">
+            <button className="flex items-center gap-2 px-5 py-2 border rounded-lg shadow-sm hover:bg-gray-100">
+              <FaGooglePlay /> Google Play
+            </button>
+          </Link>
+          <Link to="https://www.apple.com/app-store/">
+            <button className="flex items-center gap-2 px-5 py-2 border rounded-lg shadow-sm hover:bg-gray-100">
+              <FaApple /> App Store
+            </button>
+          </Link>
         </div>
 
         {/* Image */}

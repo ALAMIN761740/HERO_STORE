@@ -1,8 +1,19 @@
 import { useApp } from "../context/AppContext";
 import { FaMobileAlt } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const MyInstallation = () => {
   const { installedApps, uninstallApp } = useApp();
+
+  const handleUninstall = (id) => {
+    uninstallApp(id);
+
+    // 🔥 Toast feedback
+    toast.info("App Uninstalled ❌", {
+      position: "top-right",
+      autoClose: 1500,
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 px-6 py-10">
@@ -11,7 +22,9 @@ const MyInstallation = () => {
       </h1>
 
       {installedApps.length === 0 ? (
-        <p className="text-center text-gray-500">No apps installed</p>
+        <p className="text-center text-gray-500">
+          No apps installed
+        </p>
       ) : (
         <div className="space-y-4 max-w-3xl mx-auto">
           {installedApps.map((app) => (
@@ -30,8 +43,8 @@ const MyInstallation = () => {
               </div>
 
               <button
-                onClick={() => uninstallApp(app.id)}
-                className="bg-red-500 text-white px-4 py-1 rounded"
+                onClick={() => handleUninstall(app.id)}
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded"
               >
                 Uninstall
               </button>
