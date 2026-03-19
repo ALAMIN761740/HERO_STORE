@@ -1,5 +1,6 @@
 import { FaGlobe, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
 import { Link } from "react-router";
+import logoimg from "./../../assets/logo.png"
 
 const Footer = () => {
   return (
@@ -9,7 +10,7 @@ const Footer = () => {
         
         <div>
           <Link to="/" className="inline-flex items-center space-x-2">
-            <img className="w-8 h-8" src="./../../assets/logo.png" alt="Hero Store logo" />
+            <img className="w-8 h-8" src={logoimg} alt="Hero Store logo" />
             <span className="text-lg font-semibold  ">Hero Store</span>
         </Link>
           <p className="mt-4 text-gray-400">

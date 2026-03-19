@@ -4,12 +4,16 @@ import {
   FaDownload,
   FaStar,
   FaThumbsUp,
+  FaCheck,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 const AppDetails = () => {
   const { id } = useParams();
   const { apps, installApp, uninstallApp, installedApps } = useApp();
+
+  const [loading, setLoading] = useState(false);
 
   const app = apps.find((a) => a.id === parseInt(id));
   const isInstalled = installedApps.find((a) => a.id === app?.id);
@@ -21,20 +25,32 @@ const AppDetails = () => {
 
   // 🔥 Install Handler
   const handleInstall = () => {
-    installApp(app);
+    setLoading(true);
 
-    toast.success("Installing app...", {
+    toast.info("Installing app...", {
       position: "top-right",
-      autoClose: 1500,
+      autoClose: 1200,
     });
 
     setTimeout(() => {
-      toast.success("App Installed Successfully ✅");
+      installApp(app);
+      setLoading(false);
+
+      toast.success("App Installed Successfully ✅", {
+        position: "top-right",
+        autoClose: 1500,
+      });
     }, 1500);
   };
 
   // 🔥 Uninstall Handler
   const handleUninstall = () => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to uninstall?"
+    );
+
+    if (!confirmDelete) return;
+
     uninstallApp(app.id);
 
     toast.info("App Uninstalled ❌", {
@@ -45,12 +61,10 @@ const AppDetails = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-10">
-
       {/* Top Section */}
-      <div className="grid md:grid-cols-3 gap-2 items-center border-b pb-4">
-
-        {/* 🖼️ Image 1:1 */}
-        <div className="w-full max-w-xs aspect-square bg-gray-100 flex items-center justify-center rounded overflow-hidden">
+      <div className="grid md:grid-cols-3 gap-6 items-center border-b pb-6">
+        {/* 🖼️ Image */}
+        <div className="w-full max-w-xs aspect-square bg-gray-100 flex items-center justify-center rounded-xl overflow-hidden shadow">
           <img
             src={app.image}
             alt={app.title}
@@ -59,12 +73,14 @@ const AppDetails = () => {
         </div>
 
         {/* Info */}
-        <div className="md:col-span-2  ">
+        <div className="md:col-span-2">
           <div className="border-b pb-4">
             <h1 className="text-3xl font-bold">{app.title}</h1>
             <p className="text-gray-500 mt-1">
               Developed by{" "}
-              <span className="text-blue-500">{app.companyName}</span>
+              <span className="text-blue-500 font-medium">
+                {app.companyName}
+              </span>
             </p>
           </div>
 
@@ -80,13 +96,17 @@ const AppDetails = () => {
 
             <div className="text-center">
               <FaStar className="text-orange-500 mx-auto text-xl" />
-              <p className="text-sm text-gray-500 mt-1">Average Ratings</p>
+              <p className="text-sm text-gray-500 mt-1">
+                Average Ratings
+              </p>
               <p className="font-bold text-lg">{app.ratingAvg}</p>
             </div>
 
             <div className="text-center">
               <FaThumbsUp className="text-purple-500 mx-auto text-xl" />
-              <p className="text-sm text-gray-500 mt-1">Total Reviews</p>
+              <p className="text-sm text-gray-500 mt-1">
+                Total Reviews
+              </p>
               <p className="font-bold text-lg">
                 {app.reviews > 1000
                   ? (app.reviews / 1000).toFixed(1) + "K"
@@ -95,24 +115,62 @@ const AppDetails = () => {
             </div>
           </div>
 
-          {/* 🔘 Install / Uninstall Button */}
-          <button
-            onClick={isInstalled ? handleUninstall : handleInstall}
-            className={`mt-6 px-6 py-2 rounded text-white transition ${
-              isInstalled
-                ? "bg-red-500 hover:bg-red-600"
-                : "bg-green-500 hover:bg-green-600"
-            }`}
-          >
-            {isInstalled
-              ? "Uninstall"
-              : `Install Now (${app.size} MB)`}
-          </button>
+
+           {/*Install Button and Uninstall Button  */}
+            <div className="mt-6 flex gap-4">
+
+              <button
+                onClick={() => {
+                  if (isInstalled) {
+                    toast.warning("App already installed ", {
+                      position: "top-right",
+                      autoClose: 1500,
+                    });
+                    return;
+                  }
+
+                  handleInstall();
+                }}
+                disabled={loading}
+                className={`px-6 py-2 rounded-lg text-white flex items-center gap-2 transition-all duration-300 ${
+                  isInstalled
+                    ? "bg-green-700"
+                    : "bg-gradient-to-r from-green-500 to-emerald-600 hover:scale-105"
+                } ${loading && "opacity-70 cursor-not-allowed"}`}
+              >
+                {loading ? "Installing..." : isInstalled ? "Installed" : `Install (${app.size} MB)`}
+              </button>
+
+              
+              <button
+                onClick={() => {
+                  if (!isInstalled) {
+                    toast.error("App is not installed ", {
+                      position: "top-right",
+                      autoClose: 1500,
+                    });
+                    return;
+                  }
+
+                  handleUninstall();
+                }}
+                className={`px-6 py-2 rounded-lg text-white transition-all duration-300 ${
+                  isInstalled
+                    ? "bg-red-500 hover:bg-red-600"
+                    : "bg-gray-400"
+                }`}
+              >
+                Uninstall
+              </button>
+            </div>
+
+
+
         </div>
       </div>
 
       {/* ⭐ Ratings */}
-      <div className="mt-4 border-b pb-4">
+      <div className="mt-6 border-b pb-6">
         <h2 className="text-xl font-semibold mb-4">Ratings</h2>
 
         {app.ratings?.length > 0 ? (
@@ -129,7 +187,9 @@ const AppDetails = () => {
                     style={{
                       width: `${
                         (rating.count /
-                          Math.max(...app.ratings.map((r) => r.count))) *
+                          Math.max(
+                            ...app.ratings.map((r) => r.count)
+                          )) *
                         100
                       }%`,
                     }}
